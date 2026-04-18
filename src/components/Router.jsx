@@ -7,7 +7,7 @@ export default function Router() {
     return(
         <>
             <Routes>
-                <Route path="/" element={<Home />}/>
+                <Route path="/SDEV_255_Final_Project_Team_1/" element={<Home />}/>
                 <Route path="/viewcourses" element={<ViewCourses />}/>
                 <Route path="/createcourses" element={<CreateCourses />}/>
             </Routes>
