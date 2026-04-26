@@ -1,0 +1,263 @@
+/* ── Reset ── */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Base ── */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #1a1a1a;
+  color: #f0f0f0;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1, h2, h3 {
+  color: #f0f0f0;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+/* ── Navbar ── */
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem 3.5rem;
+  background: #111111;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.navbar-brand {
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: #f5c518;
+}
+
+.navbar-links {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+}
+
+.navbar-links li {
+  padding: 0;
+}
+
+.navbar-links a {
+  display: block;
+  padding: 0.5rem 1rem;
+  border-radius: 7px;
+  color: #aaa;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.2s;
+}
+
+.navbar-links a:hover { color: #f5c518; }
+
+/* ── Hero ── */
+.hero {
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4rem 2rem;
+  background: radial-gradient(ellipse at 50% 60%, #2a2a2a 0%, #1a1a1a 70%);
+}
+
+.hero-content { max-width: 640px; }
+
+.hero-title {
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 1.2rem;
+  color: #f5c518;
+}
+
+.hero-subtitle {
+  font-size: 1.1rem;
+  color: #999;
+  line-height: 1.7;
+  margin-bottom: 2rem;
+}
+
+.hero-btn {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  background: #f5c518;
+  color: #111;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.hero-btn:hover { background: #e0b015; }
+
+/* ── Buttons ── */
+button {
+  padding: 0.5rem 1.2rem;
+  border-radius: 7px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s;
+  border: none;
+}
+
+button[type="submit"] {
+  background: #f5c518;
+  color: #111;
+  font-weight: 600;
+}
+
+button[type="submit"]:hover { background: #e0b015; }
+button[type="submit"]:disabled { opacity: 0.6; cursor: not-allowed; }
+
+button[type="button"] {
+  background: transparent;
+  color: #aaa;
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+button[type="button"]:hover {
+  border-color: #f5c518;
+  color: #f5c518;
+}
+
+.btn-danger {
+  background: transparent !important;
+  color: #e05555 !important;
+  border: 1px solid rgba(224,85,85,0.35) !important;
+}
+
+.btn-danger:hover {
+  background: rgba(245,197,24,0.08) !important;
+  border-color: #f5c518 !important;
+  color: #f5c518 !important;
+}
+
+/* ── Course list (ViewCourses) ── */
+.courses-header {
+  text-align: center;
+  padding: 2.5rem 0 1.5rem;
+  font-size: 1.8rem;
+  color: #f5c518;
+}
+
+.course-list-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 0 2rem 3rem;
+}
+
+.course-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 900px;
+}
+
+.course-list li {
+  text-align: center;
+}
+
+li {
+  background: #111;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 1.5rem;
+  text-align: left;
+  transition: border-color 0.2s;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+li:hover { border-color: #f5c518; }
+
+li h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #f0f0f0;
+  margin: 0;
+}
+
+li p {
+  font-size: 0.9rem;
+  color: #888;
+  margin: 0;
+}
+
+/* ── Forms (CreateCourses & EditCourse) ── */
+.create-form-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 3rem 2rem;
+}
+
+.create-form-card {
+  background: #111;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 520px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+form div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+label {
+  font-size: 0.9rem;
+  color: #ccc;
+  font-weight: 500;
+  text-align: left;
+}
+
+input, textarea {
+  background: #1a1a1a;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 7px;
+  color: #f0f0f0;
+  font-size: 0.95rem;
+  font-family: inherit;
+  padding: 0.7rem 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+  resize: vertical;
+}
+
+input:focus, textarea:focus { border-color: #f5c518; }
+
+/* ── Status messages ── */
+.status-msg { color: #aaa; text-align: center; padding: 2rem 0; }
+.error { color: #e05555; }
