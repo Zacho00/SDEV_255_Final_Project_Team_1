@@ -4,7 +4,7 @@ import coursesRouter from "./routes/courses.js";
 import loginRouter from "./routes/login.js";
 import registerRouter from "./routes/register.js";
 const app = express();
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 3000;
 
 app.use(cors({
   origin: 'https://zacho00.github.io'
