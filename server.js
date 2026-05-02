@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
 import coursesRouter from "./routes/courses.js";
+import authRouter from "./routes/auth.js";
+import authMiddleware from "./middleware/authMiddleware.js";
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -14,7 +16,9 @@ app.get("/", (req, res) => {
   res.send("Backend is running for Final Project");
 });
 
-app.use("/api/courses", coursesRouter);
+app.use("/api/auth", authRouter);
+app.use("/api/courses", authMiddleware, coursesRouter);
+
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
