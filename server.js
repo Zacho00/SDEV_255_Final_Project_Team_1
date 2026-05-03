@@ -2,13 +2,16 @@ import express from "express";
 import cors from "cors";
 import coursesRouter from "./routes/courses.js";
 import authRouter from "./routes/auth.js";
-import authMiddleware from "./middleware/authMiddleware.js";
+import authMiddleware, { requireRole } from "./middleware/authMiddleware.js";
+
 
 const app = express();
 const PORT = process.env.PORT || 4000;
 
 app.use(cors({
-  origin: 'https://zacho00.github.io'
+  origin: [
+    'https://zacho00.github.io', 
+    'http://localhost:5173']
 }));
 app.use(express.json());
 
