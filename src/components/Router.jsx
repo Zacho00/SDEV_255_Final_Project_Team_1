@@ -3,6 +3,8 @@ import Home from "../Pages/Home";
 import ViewCourses from "../Pages/ViewCourses";
 import CreateCourses from "../Pages/CreateCourses";
 import EditCourse from "../Pages/EditCourse";
+import Login from "../Pages/Login";
+
 
 
 export default function Router() {
@@ -10,6 +12,7 @@ export default function Router() {
         <>
             <Routes>
                 <Route path="/SDEV_255_Final_Project_Team_1/" element={<Home />}/>
+                <Route path="/login" element={<Login />}/>
                 <Route path="/viewcourses" element={<ViewCourses />}/>
                 <Route path="/createcourses" element={<CreateCourses />}/>
                 <Route path="/editcourse/:id" element={<EditCourse />}/>    

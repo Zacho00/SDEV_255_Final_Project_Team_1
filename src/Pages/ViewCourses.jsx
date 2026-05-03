@@ -1,18 +1,17 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
-import { getCourses, deleteCourse } from "../api";
+import { getCourses, deleteCourse, getRole, isLoggedIn } from "../api";
 
 export default function ViewCourses() {
     const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+    const isTeacher = getRole() === "teacher";
 
     useEffect(() => {
         getCourses()
-            .then((data) => {
-                setCourses(data);
-            })
+            .then((data) => setCourses(data))
             .catch(() => setError("Failed to load courses"))
             .finally(() => setLoading(false));
     }, []);
@@ -27,8 +26,32 @@ export default function ViewCourses() {
         }
     }
 
-    if (loading) return <p>Loading courses...</p>;
-    if (error) return <p>{error}</p>;
+    if (!isLoggedIn()) return (
+        <div className="create-form-wrapper">
+            <div className="create-form-card" style={{ textAlign: 'center' }}>
+                <h2 style={{ color: '#f5c518', marginBottom: '1rem' }}>Access Denied</h2>
+                <p style={{ color: '#888', marginBottom: '1.5rem' }}>You need to log in to view courses.</p>
+                <button type="submit" onClick={() => navigate('/login')}>Go to Login</button>
+            </div>
+        </div>
+    );
+
+    if (loading) return (
+        <div className="create-form-wrapper">
+            <div className="create-form-card" style={{ textAlign: 'center' }}>
+                <p style={{ color: '#888' }}>Loading courses...</p>
+            </div>
+        </div>
+    );
+
+    if (error) return (
+        <div className="create-form-wrapper">
+            <div className="create-form-card" style={{ textAlign: 'center' }}>
+                <h2 style={{ color: '#f5c518', marginBottom: '1rem' }}>Something went wrong</h2>
+                <p className="error">{error}</p>
+            </div>
+        </div>
+    );
 
     return (
         <div className="course-list-wrapper">
@@ -39,17 +62,20 @@ export default function ViewCourses() {
                         <li key={course.id}>
                             <h3>{course.title}</h3>
                             <p>{course.description}</p>
-                            <button type="button" onClick={() => navigate(`/editcourse/${course.id}`)}>
-                                Edit
-                            </button>
-                            <button type="button" className="btn-danger" onClick={() => handleDelete(course.id)}>
-                                Delete
-                            </button>
+                            {isTeacher && (
+                                <>
+                                    <button type="button" onClick={() => navigate(`/editcourse/${course.id}`)}>
+                                        Edit
+                                    </button>
+                                    <button type="button" className="btn-danger" onClick={() => handleDelete(course.id)}>
+                                        Delete
+                                    </button>
+                                </>
+                            )}
                         </li>
                     ))}
                 </ul>
             </div>
-        </div>                                  
+        </div>
     );
-}   
-
+}
