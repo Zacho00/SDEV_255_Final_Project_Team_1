@@ -9,10 +9,9 @@ const accountSchema = new mongoose.Schema({
 });
 
 // Hash password before saving
-accountSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
+accountSchema.pre("save", async function () {
+  if (!this.isModified("password")) return;
   this.password = await bcrypt.hash(this.password, 10);
-  next();
 });
 
 // Method to compare passwords on login
