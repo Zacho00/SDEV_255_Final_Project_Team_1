@@ -20,7 +20,7 @@ export default function ViewCourses() {
         if (!confirm("Are you sure you want to delete this course?")) return;
         try {
             await deleteCourse(id);
-            setCourses((prev) => prev.filter((c) => c.id !== id));
+            setCourses((prev) => prev.filter((c) => c._id !== id));
         } catch {
             alert("Failed to delete course.");
         }
@@ -31,7 +31,7 @@ export default function ViewCourses() {
             <div className="create-form-card" style={{ textAlign: 'center' }}>
                 <h2 style={{ color: '#f5c518', marginBottom: '1rem' }}>Access Denied</h2>
                 <p style={{ color: '#888', marginBottom: '1.5rem' }}>You need to log in to view courses.</p>
-                <button type="submit" onClick={() => navigate('/login')}>Go to Login</button>
+                <button type="button" onClick={() => navigate('/login')}>Go to Login</button>
             </div>
         </div>
     );
@@ -59,18 +59,21 @@ export default function ViewCourses() {
                 <h2 className="courses-header">Available Courses</h2>
                 <ul className="course-list">
                     {courses.map((course) => (
-                        <li key={course.id}>
+                        <li key={course._id}>
+                            <p style={{ fontSize: '0.8rem', color: '#888', marginBottom: '0.25rem' }}>
+                                {course.courseNumber} · {course.subjectArea} · {course.credits} credits
+                            </p>
                             <h3>{course.title}</h3>
                             <p>{course.description}</p>
                             {isTeacher && (
-                                <>
-                                    <button type="button" onClick={() => navigate(`/editcourse/${course.id}`)}>
+                                <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.75rem' }}>
+                                    <button type="button" onClick={() => navigate(`/editcourse/${course._id}`)}>
                                         Edit
                                     </button>
-                                    <button type="button" className="btn-danger" onClick={() => handleDelete(course.id)}>
+                                    <button type="button" className="btn-danger" onClick={() => handleDelete(course._id)}>
                                         Delete
                                     </button>
-                                </>
+                                </div>
                             )}
                         </li>
                     ))}

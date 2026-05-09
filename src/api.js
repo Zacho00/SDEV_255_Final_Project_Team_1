@@ -54,7 +54,6 @@ export async function register(name, password, role) {
 }
 
 
-
 // --------------
 export async function getCourses() {
 
@@ -83,6 +82,7 @@ export async function getCourseById(courseId) {
     return response.json();
 }
 
+
 export async function createCourse(courseData) {
     const response = await fetch(`${BASE_URL}/courses`, {
         method: 'POST',
@@ -97,6 +97,7 @@ export async function createCourse(courseData) {
     }
     return response.json();
 }
+
 
 export async function updateCourse(courseId, courseData) {
     const response = await fetch(`${BASE_URL}/courses/${courseId}`, {
@@ -113,6 +114,7 @@ export async function updateCourse(courseId, courseData) {
     return response.json();
 }
 
+
 export async function deleteCourse(courseId) {
     const response = await fetch(`${BASE_URL}/courses/${courseId}`, {
         method: 'DELETE',
@@ -123,6 +125,71 @@ export async function deleteCourse(courseId) {
     if (!response.ok) {
         throw new Error('Failed to delete course');
     }
+}
+
+export async function searchCourses(params) {
+    const query = new URLSearchParams();
+
+    if (params.courseNumber) query.append('courseNumber', params.courseNumber);
+    if (params.title) query.append('title', params.title);
+    if (params.subjectArea) query.append('subjectArea', params.subjectArea);
+
+    const response = await fetch(`${BASE_URL}/courses/search?${query.toString()}`, {
+        headers: {
+            'Authorization': `Bearer ${getToken()}`,
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to search courses');
+    }
+    return response.json();
+}
+
+
+export async function getMySchedule() {
+    const response = await fetch(`${BASE_URL}/enrollments/my`, {
+        headers: {
+            'Authorization': `Bearer ${getToken()}`,
+        },
+    });
+    if (!response.ok) throw new Error('Failed to fetch schedule');
+    return response.json();
+}
+
+export async function enrollInCourse(courseId) {
+    const response = await fetch(`${BASE_URL}/enrollments`, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${getToken()}`,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ courseId }),
+    });
+    if (!response.ok) throw new Error('Failed to enroll in course');
+    return response.json();
+}
+
+export async function dropCourse(courseId) {
+    const response = await fetch(`${BASE_URL}/enrollments/${courseId}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${getToken()}`,
+        },
+    });
+    if (!response.ok) throw new Error('Failed to drop course');
+}
+
+export async function getMyCourses() {
+    const response = await fetch(`${BASE_URL}/courses/my`, {
+        headers: {
+            'Authorization': `Bearer ${getToken()}`,
+        },
+    });
+    if (!response.ok) {
+        throw new Error('Failed to fetch your courses');
+    }
+    return response.json();
 }
 
 export function getRole() {
