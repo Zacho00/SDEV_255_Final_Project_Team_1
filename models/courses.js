@@ -1,36 +1,42 @@
-// In-memory "database" for now
+// mongodb schema and functions for courses
 
-let courses = [
-  { id: 1, title: "Intro to Web Dev", description: "HTML, CSS, JS basics" },
-  { id: 2, title: "React Basics", description: "Components, props, state" }
-];
+import mongoose from "mongoose";
 
-let nextId = 3;
+const courseSchema = new mongoose.Schema({
+  courseNumber: { type: String, required: true, unique: true },
+  title: { type: String, required: true },
+  description: { type: String, required: true },
+  subjectArea: { type: String, required: true },
+  credits: { type: Number, required: true },
+  createdBy: { type: String, required: true }
+});
 
-export function getAllCourses() {
-  return courses;
+const Course = mongoose.model("Course", courseSchema);
+
+export async function getAllCourses() {
+  return Course.find();
 }
 
-export function getCourseById(id) {
-  return courses.find(c => c.id === id);
+export async function getCourseById(id) {
+  return Course.findById(id);
 }
 
-export function createCourse(data) {
-  const course = { id: nextId++, ...data };
-  courses.push(course);
-  return course;
+export async function createCourse(data) {
+  const course = new Course(data);
+  return course.save();
 }
 
-export function updateCourse(id, data) {
-  const index = courses.findIndex(c => c.id === id);
-  if (index === -1) return null;
-  courses[index] = { ...courses[index], ...data };
-  return courses[index];
+export async function updateCourse(id, data) {
+  return Course.findByIdAndUpdate(id, data, { new: true });
 }
 
-export function deleteCourse(id) {
-  const index = courses.findIndex(c => c.id === id);
-  if (index === -1) return false;
-  courses.splice(index, 1);
-  return true;
+export async function deleteCourse(id) {
+  const result = await Course.findByIdAndDelete(id);
+  return !!result;
 }
+
+export async function getCoursesByTeacher(teacherName) {
+  return Course.find({ createdBy: teacherName });
+}
+
+export default Course;
