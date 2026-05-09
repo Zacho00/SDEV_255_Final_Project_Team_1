@@ -135,3 +135,43 @@ export function getRole() {
     return null;
   }
 }
+
+function getScheduleStorageKey() {
+    const token = getToken();
+    if (!token) return 'schedule_guest';
+
+    try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        return `schedule_${payload.name || payload.username || payload.sub || 'anonymous'}`;
+    } catch {
+        return 'schedule_guest';
+    }
+}
+
+function loadSchedule() {
+    const scheduleJson = localStorage.getItem(getScheduleStorageKey());
+    return scheduleJson ? JSON.parse(scheduleJson) : [];
+}
+
+function saveSchedule(schedule) {
+    localStorage.setItem(getScheduleStorageKey(), JSON.stringify(schedule));
+}
+
+export function getSchedule() {
+    return loadSchedule();
+}
+
+export function addCourseToSchedule(course) {
+    const schedule = loadSchedule();
+    if (!schedule.some((item) => item.id === course.id)) {
+        schedule.push(course);
+        saveSchedule(schedule);
+    }
+    return schedule;
+}
+
+export function removeCourseFromSchedule(courseId) {
+    const schedule = loadSchedule().filter((item) => item.id !== courseId);
+    saveSchedule(schedule);
+    return schedule;
+}

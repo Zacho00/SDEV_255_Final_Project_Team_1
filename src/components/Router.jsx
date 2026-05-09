@@ -4,6 +4,7 @@ import ViewCourses from "../Pages/ViewCourses";
 import CreateCourses from "../Pages/CreateCourses";
 import EditCourse from "../Pages/EditCourse";
 import Login from "../Pages/Login";
+import MySchedule from "../Pages/MySchedule";
 
 
 
@@ -14,6 +15,7 @@ export default function Router() {
                 <Route path="/SDEV_255_Final_Project_Team_1/" element={<Home />}/>
                 <Route path="/login" element={<Login />}/>
                 <Route path="/viewcourses" element={<ViewCourses />}/>
+                <Route path="/myschedule" element={<MySchedule />}/>
                 <Route path="/createcourses" element={<CreateCourses />}/>
                 <Route path="/editcourse/:id" element={<EditCourse />}/>    
             </Routes>
