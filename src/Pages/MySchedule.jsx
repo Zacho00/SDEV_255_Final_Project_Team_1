@@ -1,44 +1,44 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import { getMyCourses, deleteCourse, getRole, isLoggedIn } from '../api';
+import { getMySchedule, dropCourse, getRole, isLoggedIn } from '../api';
 
-export default function MyCourses() {
+export default function MySchedule() {
     const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const navigate = useNavigate();
-    const isTeacher = getRole() === 'teacher';
+    const isStudent = getRole() === 'student';
 
     useEffect(() => {
-        if (!isLoggedIn() || !isTeacher) return;
-        async function fetchCourses() {
+        if (!isLoggedIn() || !isStudent) return;
+        async function fetchSchedule() {
             try {
-                const data = await getMyCourses();
+                const data = await getMySchedule();
                 setCourses(data);
             } catch (err) {
-                setError('Failed to load your courses.');
+                setError('Failed to load your schedule.');
             } finally {
                 setLoading(false);
             }
         }
-        fetchCourses();
+        fetchSchedule();
     }, []);
 
-    async function handleDelete(id) {
-        if (!window.confirm('Delete this course?')) return;
+    async function handleDrop(courseId) {
+        if (!window.confirm('Drop this course from your schedule?')) return;
         try {
-            await deleteCourse(id);
-            setCourses((prev) => prev.filter((c) => c._id !== id));
+            await dropCourse(courseId);
+            setCourses((prev) => prev.filter((c) => c._id !== courseId));
         } catch {
-            alert('Failed to delete course.');
+            alert('Failed to drop course.');
         }
     }
 
-    if (!isLoggedIn() || !isTeacher) return (
+    if (!isLoggedIn() || !isStudent) return (
         <div className="create-form-wrapper">
             <div className="create-form-card" style={{ textAlign: 'center' }}>
                 <h2 style={{ color: '#f5c518', marginBottom: '1rem' }}>Access Restricted</h2>
-                <p style={{ color: '#888', marginBottom: '1.5rem' }}>This page is for teachers only.</p>
+                <p style={{ color: '#888', marginBottom: '1.5rem' }}>This page is for students only.</p>
                 <button type="button" onClick={() => navigate('/login')}>Go to Login</button>
             </div>
         </div>
@@ -47,7 +47,7 @@ export default function MyCourses() {
     if (loading) return (
         <div className="create-form-wrapper">
             <div className="create-form-card" style={{ textAlign: 'center' }}>
-                <p style={{ color: '#888' }}>Loading your courses...</p>
+                <p style={{ color: '#888' }}>Loading your schedule...</p>
             </div>
         </div>
     );
@@ -64,14 +64,14 @@ export default function MyCourses() {
     return (
         <div className="course-list-wrapper">
             <div style={{ width: '100%', maxWidth: '900px' }}>
-                <h2 className="courses-header">My Courses</h2>
+                <h2 className="courses-header">My Schedule</h2>
                 {courses.length === 0 ? (
                     <div className="create-form-card" style={{ textAlign: 'center' }}>
                         <p style={{ color: '#888', marginBottom: '1.5rem' }}>
-                            You haven't created any courses yet.
+                            You haven't enrolled in any courses yet.
                         </p>
-                        <button type="button" onClick={() => navigate('/createcourses')}>
-                            Create a Course
+                        <button type="button" onClick={() => navigate('/searchcourses')}>
+                            Find Courses
                         </button>
                     </div>
                 ) : (
@@ -83,12 +83,13 @@ export default function MyCourses() {
                                 </p>
                                 <h3>{course.title}</h3>
                                 <p>{course.description}</p>
-                                <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.75rem' }}>
-                                    <button type="button" onClick={() => navigate(`/editcourse/${course._id}`)}>
-                                        Edit
-                                    </button>
-                                    <button type="button" className="btn-danger" onClick={() => handleDelete(course._id)}>
-                                        Delete
+                                <div style={{ marginTop: '0.75rem' }}>
+                                    <button
+                                        type="button"
+                                        className="btn-danger"
+                                        onClick={() => handleDrop(course._id)}
+                                    >
+                                        Drop Course
                                     </button>
                                 </div>
                             </li>
