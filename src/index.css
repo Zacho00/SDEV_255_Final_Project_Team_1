@@ -261,3 +261,52 @@ input:focus, textarea:focus { border-color: #f5c518; }
 /* ── Status messages ── */
 .status-msg { color: #aaa; text-align: center; padding: 2rem 0; }
 .error { color: #e05555; }
+
+
+/* ── Hero Cards ── */
+.hero-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin: 2.5rem 0;
+  text-align: left;
+}
+
+.hero-card {
+  background: #111;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 1.5rem;
+  transition: border-color 0.2s;
+}
+
+.hero-card:hover { border-color: #f5c518; }
+
+.hero-card h3 {
+  color: #f5c518;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.hero-card p {
+  color: #888;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+/* ── Hero CTA ── */
+.hero-cta {
+  font-size: 0.95rem;
+  color: #666;
+}
+
+.hero-cta a {
+  color: #f5c518;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.hero-cta a:hover { text-decoration: underline; }
+
+/* ── Hero wider content ── */
+.hero-content { max-width: 800px; }
